@@ -4,8 +4,7 @@
 
 Install GNOME and additional packages:
 ```bash
-sudo dnf install -y gnome-shell gnome-terminal gnome-control-center gnome-software gnome-menus gnome-shell-extension-common gnome-system-monitor mutter gdm gnome-tweaks flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch
-sudo systemctl enable gdm --now
+sudo dnf in gnome-tweaks flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch nano vim
 ```
 Full Guide: https://nico-shock.github.io/Arch-Linux-on-Nvidia/#install-a-desktop-environment
 

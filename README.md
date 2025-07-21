@@ -209,7 +209,3 @@ sudo dnf install -y tela-icon-theme
 For legacy applications:
 - https://github.com/kayozxo/GNOME-macOS-Tahoe
 - https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme
-
-## Taskbar (designed like a dock) and Top Bar
-- Top Bar: Utterly theme default layout, system menu removed, grey icon from repo.
-- Taskbar/Dock: Blue "andere" default Arch logo, keep download shortcut.

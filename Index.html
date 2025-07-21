@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fedora 42 Workspace Setup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0e1a;
+      --panel: #1a1f2b;
+      --switch-silver: #3498db;
+      --switch-teal: #ff6e32;
+      --white: #f0f0f0;
+      --gray-light: #6b7280;
+      --border-gradient: linear-gradient(90deg, var(--switch-silver), var(--switch-teal));
+      --border-width: 2.3px;
+      --max-width: 1100px;
+      --transition-fast: 0.2s ease-in-out;
+      --bg-light: #f1f5f9;
+      --panel-light: #ffffff;
+      --white-light: #1f2937;
+      --gray-light-light: #4b5563;
+      --switch-silver-light: #3498db;
+      --switch-teal-light: #ff6e32;
+      --border-gradient-light: linear-gradient(90deg, var(--switch-silver-light), var(--switch-teal-light));
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background var(--transition-fast), color var(--transition-fast);
+    }
+
+    body.light-mode {
+      background: var(--bg-light);
+      color: var(--white-light);
+    }
+
+    .centered-container {
+      width: 100%;
+      max-width: var(--max-width);
+      padding: 1.5rem 1.25rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    header {
+      background: var(--border-gradient);
+      color: var(--white);
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 600;
+      border: var(--border-width) solid transparent;
+      border-image: var(--border-gradient) 1;
+      border-radius: 8px;
+      user-select: none;
+      box-shadow: 0 2px 8px rgba(255, 110, 50, 0.2);
+      transition: box-shadow var(--transition-fast);
+      cursor: pointer;
+    }
+
+    body.light-mode header {
+      background: var(--border-gradient-light);
+      color: var(--white-light);
+      border-image: var(--border-gradient-light) 1;
+      box-shadow: 0 2px 8px rgba(255, 110, 50, 0.15);
+    }
+
+    header:hover {
+      box-shadow: 0 4px 12px rgba(255, 110, 50, 0.3);
+    }
+
+    body.light-mode header:hover {
+      box-shadow: 0 4px 12px rgba(255, 110, 50, 0.2);
+    }
+
+    h1, h2, h3 {
+      margin-top: 1.5rem;
+      color: var(--white);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: var(--switch-silver);
+    }
+
+    body.light-mode h1, body.light-mode h2, body.light-mode h3 {
+      color: var(--white-light);
+      text-decoration-color: var(--switch-silver-light);
+    }
+
+    p, ul {
+      line-height: 1.6;
+      margin-top: 0.5rem;
+      color: var(--white);
+    }
+
+    body.light-mode p, body.light-mode ul {
+      color: var(--white-light);
+    }
+
+    ul {
+      padding-left: 1.25rem;
+    }
+
+    .code-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    pre {
+      background: var(--panel);
+      padding: 1rem;
+      border: var(--border-width) solid transparent;
+      border-image: var(--border-gradient) 1;
+      margin: 0;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border-radius: 8px;
+      font-family: 'Inter', monospace;
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      transition: background var(--transition-fast), border-image var(--transition-fast);
+      flex: 1;
+    }
+
+    body.light-mode pre {
+      background: var(--panel-light);
+      border-image: var(--border-gradient-light) 1;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      color: var(--white-light);
+    }
+
+    .copy-btn {
+      background: var(--switch-silver);
+      color: var(--white);
+      border: none;
+      border-radius: 6px;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background var(--transition-fast), color var(--transition-fast);
+      align-self: flex-start;
+      white-space: nowrap;
+    }
+
+    body.light-mode .copy-btn {
+      background: var(--switch-silver-light);
+      color: var(--white-light);
+    }
+
+    .copy-btn:hover {
+      background: var(--switch-teal);
+      color: var(--white);
+    }
+
+    body.light-mode .copy-btn:hover {
+      background: var(--switch-teal-light);
+      color: var(--white-light);
+    }
+
+    a {
+      color: var(--switch-silver);
+      text-decoration: none;
+    }
+
+    body.light-mode a {
+      color: var(--switch-silver-light);
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: var(--switch-teal);
+    }
+
+    body.light-mode a:hover {
+      color: var(--switch-teal-light);
+    }
+
+    a[target="_blank"]::after {
+      content: ' ↗';
+      font-size: 0.85em;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 700px) {
+      .centered-container {
+        padding: 1rem;
+      }
+      .header-container {
+        margin-bottom: 0.75rem;
+      }
+      header {
+        font-size: 1.4rem;
+        padding: 0.75rem;
+      }
+      .code-container {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .copy-btn {
+        align-self: flex-end;
+      }
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="centered-container">
+    <div class="header-container">
+      <header id="theme-toggle">Fedora 42 Workspace Setup</header>
+    </div>
+
+    <h1>General Steps</h1>
+
+    <h3>Additional Packages Installation</h3>
+    <p>Install additional packages:</p>
+    <div class="code-container">
+      <pre>sudo dnf in -y flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch vim gnome-tweaks
+sudo systemctl enable --now bluetooth ufw
+sudo ufw default deny</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Make Download Faster</h3>
+    <div class="code-container">
+      <pre>sudo vim /etc/dnf/dnf.conf</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <p>Add the following lines:</p>
+    <div class="code-container">
+      <pre>max_parallel_downloads=20
+fastestmirror=True</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Install Nvidia Drivers</h3>
+    <div class="code-container">
+      <pre>sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland --skip-broken --allowerasing
+sudo reboot now</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <p>Download the Linux/Unix NVIDIA driver from the official website.</p>
+    <p>Make it executable (right-click, enable checkbox).</p>
+    <p>In the terminal:</p>
+    <div class="code-container">
+      <pre>cd ~/Downloads
+sudo ./NVIDIA-Linux-x86_64-xxx.x.xx.run</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <p>Click "Continue" and "Yes" for DKMS installations.</p>
+    <div class="code-container">
+      <pre>sudo reboot now</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Installing the CachyOS Kernel</h3>
+    <div class="code-container">
+      <pre>sudo dnf copr enable bieszczaders/kernel-cachyos
+sudo dnf in -y kernel-cachyos kernel-cachyos-devel-matched
+sudo dnf copr enable bieszczaders/kernel-cachyos-addons
+sudo dnf in -y cachyos-settings --allowerasing
+sudo dracut -f --regenerate-all
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Installing Gaming Meta</h3>
+    <div class="code-container">
+      <pre>sudo dnf in -y @c-development @development-tools steam lutris wine bottles gamescope mangohud libva-utils vulkan-tools mesa-dri-drivers mesa-vulkan-drivers gamemode libadwaita wine-dxvk dxvk-native goverlay --skip-broken
+sudo dnf copr enable atim/heroic-games-launcher
+sudo dnf in -y heroic-games-launcher-bin</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Debloating Desktop</h3>
+    <div class="code-container">
+      <pre>sudo dnf rm -y gnome-contacts gnome-maps mediawriter totem simple-scan gnome-boxes gnome-user-docs rhythmbox evince gnome-photos gnome-documents gnome-initial-setup yelp winhelp32 dosbox winehelp fedora-release-notes firefox gnome-characters gnome-logs fonts-tweak-tool timeshift epiphany gnome-weather cheese pavucontrol qt5-settings
+sudo dnf clean all</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Install Microsoft-Edge</h3>
+    <div class="code-container">
+      <pre>sudo tee /etc/yum.repos.d/microsoft-edge.repo <<EOF
+[microsoft-edge]
+name=Microsoft Edge
+baseurl=https://packages.microsoft.com/yumrepos/edge
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+EOF</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="code-container">
+      <pre>sudo dnf install microsoft-edge-stable</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Upgrading and Updating System</h3>
+    <div class="code-container">
+      <pre>sudo dnf up -y</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h1>Gnome Setup</h1>
+
+    <h2>Extensions</h2>
+    <ul>
+      <li>Application and KStatusNotifierItem Support (optional)</li>
+      <li>Blur My Shell</li>
+      <li>Just Perfection</li>
+      <li>Dash to Dock</li>
+      <li>Arc Menu</li>
+      <li>Coverflow</li>
+      <li>Impatience</li>
+      <li>Gnome 4x UI Improvements</li>
+      <li>Caffeine</li>
+      <li>Tiling Shell (optional)</li>
+      <li>Open Bar</li>
+      <li>User Themes</li>
+      <li>System Monitor</li>
+      <li>Extension List</li>
+    </ul>
+
+    <h2>Extension Settings</h2>
+
+    <h3>Blur My Shell</h3>
+    <ul>
+      <li>Default Rounded Pipeline: Radius 20, Brightness: 100</li>
+      <li>Panel: Dynamic: 29, Sigma: Brightness: 1.00</li>
+      <li>Applications: Opaque focused windows: off, blur in overview: off, enable all by default: on, disable manually: browser</li>
+    </ul>
+
+    <h3>Dash to Dock</h3>
+    <ul>
+      <li>Intelligent auto-hide: off</li>
+      <li>Size: 32</li>
+      <li>Menu moved to the left</li>
+      <li>Show drives and devices: off</li>
+      <li>Minimize appearance: on</li>
+      <li>Window counter indicators: dots</li>
+    </ul>
+
+    <h3>Just Perfection</h3>
+    <ul>
+      <li>Panel button spacing: 0px</li>
+      <li>Panel indicator spacing: 2px</li>
+      <li>Clock position: right + 6 to 9 px offset</li>
+      <li>Dash icon size: 32px</li>
+    </ul>
+
+    <h3>Arc Menu</h3>
+    <ul>
+      <li>Menu button: Arch</li>
+      <li>Menu view: Startmenu: Runner</li>
+      <li>Width: 450</li>
+      <li>Height: 300</li>
+    </ul>
+
+    <h3>Open Bar</h3>
+    <p>Configuration: <a href="https://github.com/Nico-Shock/My-OpenBar-configs" target="_blank">My OpenBar Configs</a></p>
+
+    <h2>Commands</h2>
+
+    <h3>Extensions Manager</h3>
+    <p>Install via flatpak:</p>
+    <div class="code-container">
+      <pre>sudo flatpak install -y flathub com.mattjakeman.ExtensionManager</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>WhiteSur Theme</h3>
+    <div class="code-container">
+      <pre>sudo dnf in -y git
+git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
+cd WhiteSur-gtk-theme
+./install.sh -l
+cd ..
+sudo rm -rf WhiteSur-gtk-theme</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Tokyonight Theme</h3>
+    <div class="code-container">
+      <pre>git clone --depth 1 https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git
+cd Tokyonight-GTK-Theme/themes
+./install.sh -l --tweaks black macos
+cd ../..
+sudo rm -rf Tokyonight-GTK-Theme</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Tela Circle Icons</h3>
+    <div class="code-container">
+      <pre>git clone --depth 1 https://github.com/vinceliuice/Tela-circle-icon-theme.git
+cd Tela-circle-icon-theme
+./install.sh -a
+cd ..
+sudo rm -rf Tela-circle-icon-theme</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h2>Gnome Tweaks</h2>
+    <ul>
+      <li>Do not change the font (set via KDE Plasma to avoid font rendering issues in Ptyxis with "apply system font").</li>
+      <li>Shell theme: `WhiteSur-Dark`</li>
+      <li>Other theme: `Tokyonight` (ensures compact apps via WhiteSur shell styling and Tokyo Night theme via libadwaita).</li>
+    </ul>
+
+    <h3>Zsh</h3>
+    <div class="code-container">
+      <pre>sudo dnf in -y zsh
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
+chsh -s $(which zsh)</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Terminal (Ptyxis)</h3>
+    <div class="code-container">
+      <pre>sudo dnf in -y dejavu-sans-mono-fonts powerline-fonts
+gsettings set 'org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/'$PTYXIS_PROFILE'/' 'opacity' '0.70'</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <ul>
+      <li>Set Ptyxis font to DejaVu Sans Mono or Powerline font.</li>
+    </ul>
+
+    <h1>KDE Plasma</h1>
+
+    <h2>Installation</h2>
+    <div class="code-container">
+      <pre>sudo dnf in -y plasma-desktop konsole kvantum</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h2>Theme Installation</h2>
+    <div class="code-container">
+      <pre>git clone https://github.com/vinceliuice/Layan-kvantum-theme.git
+cd Layan-kvantum-theme
+./install.sh
+cd ..
+sudo rm -rf Layan-kvantum-theme</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Details</h3>
+    <ul>
+      <li>Apply Layan theme and Kvantum version via settings menu.</li>
+      <li>Customize taskbar as preferred.</li>
+      <li>Consider trying Latte Dock in the future.</li>
+    </ul>
+
+    <h3>Settings</h3>
+    <ul>
+      <li>Fensterverwaltung + Arbeitsflächen Effekte:</li>
+      <li>Schweben (hover effect)</li>
+      <li>Transparenz: Set to very opaque</li>
+      <li>Verwischen (blur effect)</li>
+      <li>Explore additional effects later</li>
+    </ul>
+
+    <h3>Konsole</h3>
+    <ul>
+      <li>Create a new profile in Settings and set as default.</li>
+      <li>In Erscheinungsbild (Appearance), use aritim-dark theme.</li>
+      <li>Edit theme and set background blur to 20.</li>
+    </ul>
+
+    <h1>KDE Plasma 2</h1>
+
+    <h2>Theme</h2>
+    <ul>
+      <li>Global Settings: Utterly Nord + Utterly Nord Kvantum Theme</li>
+      <li>Konsole Theme: Utterly Nord Solid with 40% Transparency</li>
+    </ul>
+
+    <h2>Desktop Effects</h2>
+    <ul>
+      <li>Blur: Set to level 6 (from left)</li>
+    </ul>
+
+    <h2>Taskbar (designed like a dock) and Top Bar</h2>
+    <ul>
+      <li>Top Bar: Utterly theme default layout, system menu removed, grey icon from repo.</li>
+      <li>Taskbar/Dock: Blue "andere" default Arch logo, keep download shortcut.</li>
+    </ul>
+
+    <h1>General Things</h1>
+
+    <h3>Fonts</h3>
+    <p><a href="https://fonts.google.com/specimen/Inter" target="_blank">Inter Font</a></p>
+    <ul>
+      <li>I use the Semi Bold one</li>
+    </ul>
+
+    <h3>Additional Fonts</h3>
+    <div class="code-container">
+      <pre>git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+cd nerd-fonts
+./install.sh
+cd ..
+sudo rm -rf nerd-fonts</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
+    <h3>Mouse Cursor</h3>
+    <ul>
+      <li><a href="https://github.com/ful1e5/Bibata_Cursor/releases" target="_blank">Bibata Cursor</a></li>
+      <li><a href="https://www.pling.com/find?search=Windows%20xp%20cursor" target="_blank">Windows XP Modern Cursor</a></li>
+      <li>Maybe other cursors – I always like to change it a bit</li>
+    </ul>
+
+    <h2>Other Themes</h2>
+    <p>For legacy applications:</p>
+    <ul>
+      <li><a href="https://github.com/kayozxo/GNOME-macOS-Tahoe" target="_blank">GNOME macOS Tahoe</a></li>
+      <li><a href="https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme" target="_blank">Tokyonight GTK Theme</a></li>
+    </ul>
+  </div>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    let themeMode = 'dark';
+
+    function updateTheme() {
+      document.body.classList.toggle('light-mode', themeMode === 'light');
+    }
+
+    themeToggle.addEventListener('click', (event) => {
+      if (!document.startViewTransition) {
+        themeMode = themeMode === 'dark' ? 'light' : 'dark';
+        updateTheme();
+        return;
+      }
+
+      const x = event.clientX;
+      const y = event.clientY;
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      const transition = document.startViewTransition(() => {
+        themeMode = themeMode === 'dark' ? 'light' : 'dark';
+        updateTheme();
+      });
+
+      transition.ready.then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0 at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`
+            ],
+          },
+          {
+            duration: 500,
+            easing: 'ease-in-out',
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+      });
+    });
+
+    function copyCode(button) {
+      const pre = button.previousElementSibling;
+      const text = pre.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        button.textContent = 'Copied!';
+        setTimeout(() => button.textContent = 'Copy', 2000);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+        button.textContent = 'Error';
+        setTimeout(() => button.textContent = 'Copy', 2000);
+      });
+    }
+
+    updateTheme();
+  </script>
+</body>
+</html>

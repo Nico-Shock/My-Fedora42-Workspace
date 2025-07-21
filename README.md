@@ -96,6 +96,7 @@ sudo dnf up -y
 - Open Bar
 - User Themes
 - System Monitor
+- Extension List
 
 ## Extension Settings
 
@@ -233,50 +234,17 @@ sudo rm -rf Layan-kvantum-theme
 
 ## Fonts
 - Install Inter Semi Bold: https://fonts.google.com/specimen/Inter
-```
-wget https://fonts.google.com/download?family=Inter -O inter.zip
-unzip inter.zip -d inter
-sudo mkdir -p /usr/share/fonts/inter
-sudo mv inter/*.ttf /usr/share/fonts/inter/
-sudo fc-cache -fv
-rm -rf inter inter.zip
-```
 
 - Install additional fonts:
 ```
-sudo dnf in -y jetbrains-mono-fonts noto-fonts noto-cjk-fonts noto-emoji-fonts dejavu-fonts liberation-fonts powerline-fonts
-```
-
-### Unifont
-```
-wget http://unifoundry.com/pub/unifont/unifont-15.0.06/unifont-15.0.06.ttf
-sudo mkdir -p /usr/share/fonts/unifont
-sudo mv unifont-15.0.06.ttf /usr/share/fonts/unifont/
-sudo fc-cache -fv
-```
-
-### Symbola
-```
-wget https://fontlibrary.org/assets/downloads/symbola/0e4e2e6f7b050f4e43e3f6b4e7e3c1f7/symbola.zip
-unzip symbola.zip -d symbola
-sudo mkdir -p /usr/share/fonts/symbola
-sudo mv symbola/Symbola.ttf /usr/share/fonts/symbola/
-sudo fc-cache -fv
-rm -rf symbola symbola.zip
+sdfsdfsdfsvvsdfergf
 ```
 
 ## Mouse Cursor
-```
-sudo dnf in -y bibata-cursor-theme
-```
 
+- Babita Mouse Cursor: https://github.com/ful1e5/Bibata_Cursor/releases
 - Windows XP Modern Cursor: https://www.pling.com/find?search=Windows%20xp%20cursor
 - May change cursors occasionally.
-
-## Icons
-```
-sudo dnf in -y tela-icon-theme
-```
 
 ## Other Themes
 For legacy applications:

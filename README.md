@@ -230,21 +230,29 @@ sudo rm -rf Layan-kvantum-theme
 - Top Bar: Utterly theme default layout, system menu removed, grey icon from repo.
 - Taskbar/Dock: Blue "andere" default Arch logo, keep download shortcut.
 
-# General Things
+# General Things:
 
-## Fonts
-- Install Inter Semi Bold: https://fonts.google.com/specimen/Inter
+### Fonts:
 
-- Install additional fonts:
+https://fonts.google.com/specimen/Inter
+
+- I use the Semi Bold one
+
+### Additional Fonts:
+
+```sh
+git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+cd nerd-fonts
+./install.sh
+cd ..
+sudo rm -rf nerd-fonts
 ```
-sdfsdfsdfsvvsdfergf
-```
 
-## Mouse Cursor
+### Mouse Cursor:
 
-- Babita Mouse Cursor: https://github.com/ful1e5/Bibata_Cursor/releases
-- Windows XP Modern Cursor: https://www.pling.com/find?search=Windows%20xp%20cursor
-- May change cursors occasionally.
+- Bibata Cursor: https://github.com/ful1e5/Bibata_Cursor/releases  
+- Windows XP Modern Cursor: https://www.pling.com/find?search=Windows%20xp%20cursor  
+- Maybe other cursors – I always like to change it a bit
 
 ## Other Themes
 For legacy applications:

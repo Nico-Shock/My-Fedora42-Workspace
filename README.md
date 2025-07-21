@@ -1,11 +1,72 @@
+
 # Gnome Setup
 
-## Installation
+## Additional Packages Installation
 
-Install GNOME and additional packages:
-```bash
-sudo dnf in gnome-tweaks flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch nano vim
+Install additional packages:
 ```
+sudo dnf in -y flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch
+sudo systemctl enable --now bluetooth ufw
+sudo ufw default deny
+```
+
+## Additional Packages
+
+### Make Download Faster
+```
+sudo vim /etc/dnf/dnf.conf
+```
+Add the following lines:
+```
+max_parallel_downloads=20
+fastestmirror=True
+```
+
+### Install Nvidia Drivers
+```
+sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland --skip-broken --allowerasing
+sudo reboot now
+```
+Download the Linux/Unix NVIDIA driver from the official website.  
+Make it executable (right-click, enable checkbox).  
+In the terminal:
+```
+cd ~/Downloads
+sudo ./NVIDIA-Linux-x86_64-xxx.x.xx.run
+```
+Click "Continue" and "Yes" for DKMS installations.
+```
+sudo reboot now
+```
+
+### Installing the CachyOS Kernel
+```
+sudo dnf copr enable bieszczaders/kernel-cachyos
+sudo dnf in -y kernel-cachyos kernel-cachyos-devel-matched
+sudo dnf copr enable bieszczaders/kernel-cachyos-addons
+sudo dnf in -y cachyos-settings --allowerasing
+sudo dracut -f --regenerate-all
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+```
+
+### Installing Gaming Meta
+```
+sudo dnf in -y @c-development @development-tools steam lutris wine bottles gamescope mangohud libva-utils vulkan-tools mesa-dri-drivers mesa-vulkan-drivers gamemode libadwaita wine-dxvk dxvk-native goverlay --skip-broken
+sudo dnf copr enable atim/heroic-games-launcher
+sudo dnf in -y heroic-games-launcher-bin
+```
+
+### Debloating Desktop
+```
+sudo dnf rm -y gnome-contacts gnome-maps mediawriter totem simple-scan gnome-boxes gnome-user-docs rhythmbox evince gnome-photos gnome-documents gnome-initial-setup yelp winhelp32 dosbox winehelp fedora-release-notes firefox gnome-characters gnome-logs fonts-tweak-tool timeshift epiphany gnome-weather cheese pavucontrol qt5-settings
+sudo dnf clean all
+```
+
+### Upgrading and Updating System
+```
+sudo dnf up -y
+```
+
 Full Guide: https://nico-shock.github.io/Arch-Linux-on-Nvidia/#install-a-desktop-environment
 
 Note: With multiple Desktops, I prefer sddm.
@@ -60,13 +121,13 @@ Note: With multiple Desktops, I prefer sddm.
 
 ### Extensions Manager
 Install via flatpak:
-```bash
+```
 sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
 ```
 
 ### WhiteSur Theme
-```bash
-sudo dnf install -y git
+```
+sudo dnf in -y git
 git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
 cd WhiteSur-gtk-theme
 ./install.sh -l
@@ -75,7 +136,7 @@ sudo rm -rf WhiteSur-gtk-theme
 ```
 
 ### Tokyonight Theme
-```bash
+```
 git clone --depth 1 https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git
 cd Tokyonight-GTK-Theme/themes
 ./install.sh -l --tweaks black macos
@@ -84,7 +145,7 @@ sudo rm -rf Tokyonight-GTK-Theme
 ```
 
 ### Tela Circle Icons
-```bash
+```
 git clone --depth 1 https://github.com/vinceliuice/Tela-circle-icon-theme.git
 cd Tela-circle-icon-theme
 ./install.sh -n blue
@@ -98,30 +159,29 @@ sudo rm -rf Tela-circle-icon-theme
 - Other theme: `Tokyonight` (ensures compact apps via WhiteSur shell styling and Tokyo Night theme via libadwaita).
 
 ### Zsh
-```bash
-sudo dnf install -y zsh
+```
+sudo dnf in -y zsh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 chsh -s $(which zsh)
 ```
 
 ### Terminal (Ptyxis)
-```bash
-sudo dnf install -y ptyxis dejavu-sans-mono-fonts powerline-fonts
+```
+sudo dnf in -y dejavu-sans-mono-fonts powerline-fonts
 gsettings set 'org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/'$PTYXIS_PROFILE'/' 'opacity' '0.70'
 ```
-
 - Set Ptyxis font to DejaVu Sans Mono or Powerline font.
 
 # KDE Plasma
 
 ## Installation
-```bash
-sudo dnf install -y plasma-desktop konsole kvantum
+```
+sudo dnf in -y plasma-desktop konsole kvantum
 ```
 
 ## Theme Installation
-```bash
+```
 git clone https://github.com/vinceliuice/Layan-kvantum-theme.git
 cd Layan-kvantum-theme
 ./install.sh
@@ -155,11 +215,15 @@ sudo rm -rf Layan-kvantum-theme
 ## Desktop Effects
 - Blur: Set to level 6 (from left)
 
+## Taskbar (designed like a dock) and Top Bar
+- Top Bar: Utterly theme default layout, system menu removed, grey icon from repo.
+- Taskbar/Dock: Blue "andere" default Arch logo, keep download shortcut.
+
 # General Things
 
 ## Fonts
 - Install Inter Semi Bold: https://fonts.google.com/specimen/Inter
-```bash
+```
 wget https://fonts.google.com/download?family=Inter -O inter.zip
 unzip inter.zip -d inter
 sudo mkdir -p /usr/share/fonts/inter
@@ -169,12 +233,12 @@ rm -rf inter inter.zip
 ```
 
 - Install additional fonts:
-```bash
-sudo dnf install -y jetbrains-mono-fonts noto-fonts noto-cjk-fonts noto-emoji-fonts dejavu-fonts liberation-fonts powerline-fonts
+```
+sudo dnf in -y jetbrains-mono-fonts noto-fonts noto-cjk-fonts noto-emoji-fonts dejavu-fonts liberation-fonts powerline-fonts
 ```
 
 ### Unifont
-```bash
+```
 wget http://unifoundry.com/pub/unifont/unifont-15.0.06/unifont-15.0.06.ttf
 sudo mkdir -p /usr/share/fonts/unifont
 sudo mv unifont-15.0.06.ttf /usr/share/fonts/unifont/
@@ -182,7 +246,7 @@ sudo fc-cache -fv
 ```
 
 ### Symbola
-```bash
+```
 wget https://fontlibrary.org/assets/downloads/symbola/0e4e2e6f7b050f4e43e3f6b4e7e3c1f7/symbola.zip
 unzip symbola.zip -d symbola
 sudo mkdir -p /usr/share/fonts/symbola
@@ -192,16 +256,16 @@ rm -rf symbola symbola.zip
 ```
 
 ## Mouse Cursor
-```bash
-sudo dnf install -y bibata-cursor-theme
+```
+sudo dnf in -y bibata-cursor-theme
 ```
 
 - Windows XP Modern Cursor: https://www.pling.com/find?search=Windows%20xp%20cursor
 - May change cursors occasionally.
 
 ## Icons
-```bash
-sudo dnf install -y tela-icon-theme
+```
+sudo dnf in -y tela-icon-theme
 ```
 
 ## Other Themes

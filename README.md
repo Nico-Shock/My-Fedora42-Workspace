@@ -59,6 +59,21 @@ sudo dnf rm -y gnome-contacts gnome-maps mediawriter totem simple-scan gnome-box
 sudo dnf clean all
 ```
 
+### Install Microsoft-Edge
+
+```
+sudo tee /etc/yum.repos.d/microsoft-edge.repo <<EOF
+[microsoft-edge]
+name=Microsoft Edge
+baseurl=https://packages.microsoft.com/yumrepos/edge
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc
+EOF
+
+sudo dnf install microsoft-edge-stable
+```
+
 ### Upgrading and Updating System
 ```
 sudo dnf up -y

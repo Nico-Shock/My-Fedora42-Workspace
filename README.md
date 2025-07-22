@@ -21,6 +21,11 @@ max_parallel_downloads=20
 fastestmirror=True
 ```
 
+### Update System
+```
+sudo dnf up -y && sudo reboot now
+```
+
 ### Install Nvidia Drivers
 ```
 sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland --skip-broken --allowerasing
@@ -113,11 +118,6 @@ EOF
 ```
 ```
 sudo dnf install microsoft-edge-stable
-```
-
-### Upgrading and Updating System
-```
-sudo dnf up -y
 ```
 
 # Gnome Setup

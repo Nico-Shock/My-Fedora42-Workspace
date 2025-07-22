@@ -290,41 +290,6 @@ echo "blacklist nova_core" >> /etc/modprobe.d/blacklist.conf</pre>
 echo "options nvidia-drm modeset=1 fbdev=0" >> /etc/modprobe.d/nvidia.conf</pre>
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
     </div>
-    <div class="code-container">
-      <pre>grub2-mkconfig -o /boot/grub2/grub.cfg</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
-    <div class="code-container">
-      <pre>rm -r /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau-nova.img</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
-    <div class="code-container">
-      <pre>dracut /boot/initramfs-$(uname -r).img $(uname -r)</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
-    <p>Download the Linux/Unix NVIDIA driver from the official website.
-    Make it executable (right-click, enable checkbox).</p>
-    <div class="code-container">
-      <pre>systemctl set-default multi-user.target
-reboot now</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
-    <div class="code-container">
-      <pre>sudo su</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
-    <div class="code-container">
-      <pre>export CC="gcc -std=gnu17"
-cd Downloads/
-./NVIDIA-Linux-x86_64-xxx.x.xx.run</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
-    <p>Click "Continue" and "Yes" for DKMS installations.</p>
-    <div class="code-container">
-      <pre>systemctl set-default graphical.target
-sudo reboot now</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
 
     <h3>Installing the CachyOS Kernel</h3>
     <div class="code-container">

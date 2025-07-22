@@ -264,6 +264,12 @@ fastestmirror=True</pre>
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
     </div>
 
+    <h3>Update System</h3>
+    <div class="code-container">
+      <pre>sudo dnf up -y && sudo reboot now</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+
     <h3>Install Nvidia Drivers</h3>
     <div class="code-container">
       <pre>sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland --skip-broken --allowerasing
@@ -296,6 +302,8 @@ echo "options nvidia-drm modeset=1 fbdev=0" >> /etc/modprobe.d/nvidia.conf</pre>
       <pre>dracut /boot/initramfs-$(uname -r).img $(uname -r)</pre>
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
     </div>
+    <p>Download the Linux/Unix NVIDIA driver from the official website.
+    Make it executable (right-click, enable checkbox).</p>
     <div class="code-container">
       <pre>systemctl set-default multi-user.target
 reboot now</pre>
@@ -305,8 +313,6 @@ reboot now</pre>
       <pre>sudo su</pre>
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
     </div>
-    <p>Download the Linux/Unix NVIDIA driver from the official website.
-    Make it executable (right-click, enable checkbox).</p>
     <div class="code-container">
       <pre>export CC="gcc -std=gnu17"
 cd Downloads/
@@ -360,12 +366,6 @@ EOF</pre>
     </div>
     <div class="code-container">
       <pre>sudo dnf install microsoft-edge-stable</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-    </div>
-
-    <h3>Upgrading and Updating System</h3>
-    <div class="code-container">
-      <pre>sudo dnf up -y</pre>
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
     </div>
 

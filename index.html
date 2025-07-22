@@ -270,6 +270,36 @@ fastestmirror=True</pre>
 sudo reboot now</pre>
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
     </div>
+    <div class="code-container">
+      <pre>sudo su</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="code-container">
+      <pre>echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
+echo "blacklist nova_core" >> /etc/modprobe.d/blacklist.conf</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="code-container">
+      <pre>echo "options nvidia NVreg_PreserveVideoMemoryAllocations=1" >> /etc/modprobe.d/nvidia.conf
+echo "options nvidia-drm modeset=1 fbdev=0" >> /etc/modprobe.d/nvidia.conf</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="code-container">
+      <pre>grub2-mkconfig -o /boot/grub2/grub.cfg</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="code-container">
+      <pre>rm -r /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau-nova.img</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="code-container">
+      <pre>dracut /boot/initramfs-$(uname -r).img $(uname -r)</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
+    <div class="code-container">
+      <pre>reboot now</pre>
+      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    </div>
     <p>Download the Linux/Unix NVIDIA driver from the official website.</p>
     <p>Make it executable (right-click, enable checkbox).</p>
     <p>In the terminal:</p>

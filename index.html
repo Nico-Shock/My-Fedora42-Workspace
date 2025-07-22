@@ -272,7 +272,7 @@ fastestmirror=True</pre>
 
     <h3>Install Nvidia Drivers</h3>
     <div class="code-container">
-      <pre>sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland --skip-broken --allowerasing
+      <pre>sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland akmod-nvidia xorg-x11-drv-nvidia-cuda --skip-broken --allowerasing
 sudo reboot now</pre>
       <button class="copy-btn" onclick="copyCode(this)">Copy</button>
     </div>

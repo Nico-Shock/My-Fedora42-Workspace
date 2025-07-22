@@ -28,7 +28,7 @@ sudo dnf up -y && sudo reboot now
 
 ### Install Nvidia Drivers
 ```
-sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland --skip-broken --allowerasing
+sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland akmod-nvidia xorg-x11-drv-nvidia-cuda --skip-broken --allowerasing
 sudo reboot now
 ```
 
@@ -44,41 +44,6 @@ echo "blacklist nova_core" >> /etc/modprobe.d/blacklist.conf
 ```
 echo "options nvidia NVreg_PreserveVideoMemoryAllocations=1" >> /etc/modprobe.d/nvidia.conf
 echo "options nvidia-drm modeset=1 fbdev=0" >> /etc/modprobe.d/nvidia.conf
-```
-
-```
-grub2-mkconfig -o /boot/grub2/grub.cfg
-```
-
-```
-rm -r /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau-nova.img
-```
-
-```
-dracut /boot/initramfs-$(uname -r).img $(uname -r)
-```
-Download the Linux/Unix NVIDIA driver from the official website.  
-Make it executable (right-click, enable checkbox).  
-
-```
-systemctl set-default multi-user.target
-reboot now
-```
-
-```
-sudo su
-```
-
-```
-export CC="gcc -std=gnu17"
-cd Downloads/
-./NVIDIA-Linux-x86_64-xxx.x.xx.run
-```
-
-Click "Continue" and "Yes" for DKMS installations.
-```
-systemctl set-default graphical.target
-sudo reboot now
 ```
 
 ### Installing the CachyOS Kernel

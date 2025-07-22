@@ -6,9 +6,13 @@
 
 Install additional packages:
 ```
-sudo dnf in -y flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch vim gnome-tweaks
+sudo dnf in -y flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch vim gnome-tweaks 
 sudo systemctl enable --now bluetooth ufw
 sudo ufw default deny
+```
+
+```
+sudo dnf group install multimedia
 ```
 
 ### Make Download Faster

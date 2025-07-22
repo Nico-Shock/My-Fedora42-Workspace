@@ -26,6 +26,36 @@ fastestmirror=True
 sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland --skip-broken --allowerasing
 sudo reboot now
 ```
+
+```
+sudo su
+```
+
+```
+echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
+echo "blacklist nova_core" >> /etc/modprobe.d/blacklist.conf
+```
+
+```
+echo "options nvidia NVreg_PreserveVideoMemoryAllocations=1" >> /etc/modprobe.d/nvidia.conf
+echo "options nvidia-drm modeset=1 fbdev=0" >> /etc/modprobe.d/nvidia.conf
+```
+
+```
+grub2-mkconfig -o /boot/grub2/grub.cfg
+```
+
+```
+rm -r /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau-nova.img
+```
+
+```
+dracut /boot/initramfs-$(uname -r).img $(uname -r)
+```
+
+```
+reboot now
+```
 Download the Linux/Unix NVIDIA driver from the official website.  
 Make it executable (right-click, enable checkbox).  
 In the terminal:

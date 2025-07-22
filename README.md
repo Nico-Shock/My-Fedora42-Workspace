@@ -52,19 +52,27 @@ rm -r /boot/initramfs-$(uname -r).img /boot/initramfs-$(uname -r)-nouveau-nova.i
 ```
 dracut /boot/initramfs-$(uname -r).img $(uname -r)
 ```
-
-```
-reboot now
-```
 Download the Linux/Unix NVIDIA driver from the official website.  
 Make it executable (right-click, enable checkbox).  
-In the terminal:
+
 ```
-cd ~/Downloads
-sudo ./NVIDIA-Linux-x86_64-xxx.x.xx.run
+systemctl set-default multi-user.target
+reboot now
 ```
+
+```
+sudo su
+```
+
+```
+export CC="gcc -std=gnu17"
+cd Downloads/
+./NVIDIA-Linux-x86_64-xxx.x.xx.run
+```
+
 Click "Continue" and "Yes" for DKMS installations.
 ```
+systemctl set-default graphical.target
 sudo reboot now
 ```
 

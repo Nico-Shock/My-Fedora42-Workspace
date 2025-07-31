@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Script currently broken because i edited on Windows.
+
 TOTAL_STEPS=16
 CURRENT_STEP=0
 CURRENT_PROCESS_STEPS=1

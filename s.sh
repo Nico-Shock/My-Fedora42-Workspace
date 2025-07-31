@@ -1,4 +1,4 @@
-```bash
+bash
 #!/usr/bin/env bash
 set -euo pipefail
 
@@ -252,4 +252,3 @@ read -p "    Update system and reboot now? (y/n): " update_reboot
 if [[ "$update_reboot" == "y" ]]; then
     sudo dnf update -y && sudo reboot now
 fi
-```

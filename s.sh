@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script currently broken because i edited on Windows.
+# Script currently broken because I edited on Windows.
 
 TOTAL_STEPS=16
 CURRENT_STEP=0

@@ -4,26 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Fedora 42 Workspace Setup</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #0a0e1a;
-      --panel: #1a1f2b;
-      --switch-silver: #3498db;
-      --switch-teal: #ff6e32;
-      --white: #f0f0f0;
-      --gray-light: #6b7280;
-      --border-gradient: linear-gradient(90deg, var(--switch-silver), var(--switch-teal));
-      --border-width: 2.3px;
+      --bg: #0f0f0f;
+      --surface: #1e1e1e;
+      --surface-variant: #2a2a2a;
+      --primary: #bb86fc;
+      --primary-variant: #985eff;
+      --secondary: #03dac6;
+      --on-surface: #e1e1e1;
+      --on-surface-variant: #b3b3b3;
+      --elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      --elevation-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      --elevation-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      --border-radius: 16px;
+      --border-radius-small: 8px;
       --max-width: 1100px;
-      --transition-fast: 0.2s ease-in-out;
-      --bg-light: #f1f5f9;
-      --panel-light: #ffffff;
-      --white-light: #1f2937;
-      --gray-light-light: #4b5563;
-      --switch-silver-light: #3498db;
-      --switch-teal-light: #ff6e32;
-      --border-gradient-light: linear-gradient(90deg, var(--switch-silver-light), var(--switch-teal-light));
+      --transition: 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+      --bg-light: #fafafa;
+      --surface-light: #ffffff;
+      --surface-variant-light: #f5f5f5;
+      --primary-light: #6200ea;
+      --primary-variant-light: #3700b3;
+      --secondary-light: #018786;
+      --on-surface-light: #212121;
+      --on-surface-variant-light: #757575;
     }
 
     * {
@@ -33,29 +39,29 @@
     body {
       margin: 0;
       background: var(--bg);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
+      color: var(--on-surface);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
       line-height: 1.6;
-      transition: background var(--transition-fast), color var(--transition-fast);
+      transition: background var(--transition), color var(--transition);
     }
 
     body.light-mode {
       background: var(--bg-light);
-      color: var(--white-light);
+      color: var(--on-surface-light);
     }
 
     .centered-container {
       width: 100%;
       max-width: var(--max-width);
-      padding: 1.5rem 1.25rem 2.5rem;
+      padding: 24px 16px 40px;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 24px;
       position: relative;
     }
 
@@ -64,167 +70,254 @@
       justify-content: center;
       align-items: center;
       width: 100%;
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
     }
 
     header {
-      background: var(--border-gradient);
-      color: var(--white);
-      padding: 1rem;
+      background: var(--surface);
+      color: var(--primary);
+      padding: 24px 32px;
       text-align: center;
-      font-size: 1.8rem;
-      font-weight: 600;
-      border: var(--border-width) solid transparent;
-      border-image: var(--border-gradient) 1;
-      border-radius: 8px;
+      font-size: 2rem;
+      font-weight: 500;
+      border-radius: var(--border-radius);
       user-select: none;
-      box-shadow: 0 2px 8px rgba(255, 110, 50, 0.2);
-      transition: box-shadow var(--transition-fast);
+      box-shadow: var(--elevation-2);
+      transition: all var(--transition);
       cursor: pointer;
+      backdrop-filter: blur(20px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      opacity: 0.1;
+      z-index: -1;
     }
 
     body.light-mode header {
-      background: var(--border-gradient-light);
-      color: var(--white-light);
-      border-image: var(--border-gradient-light) 1;
-      box-shadow: 0 2px 8px rgba(255, 110, 50, 0.15);
+      background: var(--surface-light);
+      color: var(--primary-light);
+      box-shadow: var(--elevation-2);
     }
 
     header:hover {
-      box-shadow: 0 4px 12px rgba(255, 110, 50, 0.3);
-    }
-
-    body.light-mode header:hover {
-      box-shadow: 0 4px 12px rgba(255, 110, 50, 0.2);
+      box-shadow: var(--elevation-3);
+      transform: translateY(-2px);
     }
 
     h1, h2, h3 {
-      margin-top: 1.5rem;
-      color: var(--white);
-      font-weight: 600;
-      text-decoration: underline;
-      text-decoration-color: var(--switch-silver);
+      margin-top: 32px;
+      color: var(--primary);
+      font-weight: 500;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
     }
 
     body.light-mode h1, body.light-mode h2, body.light-mode h3 {
-      color: var(--white-light);
-      text-decoration-color: var(--switch-silver-light);
+      color: var(--primary-light);
+    }
+
+    h1::after, h2::after, h3::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 90%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
     }
 
     p, ul {
       line-height: 1.6;
-      margin-top: 0.5rem;
-      color: var(--white);
+      margin-top: 8px;
+      color: var(--on-surface-variant);
     }
 
     body.light-mode p, body.light-mode ul {
-      color: var(--white-light);
+      color: var(--on-surface-variant-light);
     }
 
     ul {
-      padding-left: 1.25rem;
+      padding-left: 20px;
     }
 
     .code-container {
       display: flex;
       align-items: flex-start;
-      gap: 0.5rem;
-      margin: 0.5rem 0 1rem;
+      gap: 8px;
+      margin: 16px 0;
+      width: 100%;
+      position: relative;
+    }
+
+    .code-wrapper {
+      flex: 1;
+      min-width: 0;
+      width: calc(100% - 110px);
     }
 
     pre {
-      background: var(--panel);
-      padding: 1rem;
-      border: var(--border-width) solid transparent;
-      border-image: var(--border-gradient) 1;
+      background: var(--surface-variant);
+      padding: 20px;
       margin: 0;
       overflow-x: auto;
       white-space: pre-wrap;
       word-break: break-word;
-      border-radius: 8px;
-      font-family: 'Inter', monospace;
-      color: var(--white);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
-      transition: background var(--transition-fast), border-image var(--transition-fast);
-      flex: 1;
+      border-radius: var(--border-radius-small);
+      font-family: 'Roboto Mono', monospace;
+      color: var(--on-surface);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--elevation-1);
+      width: 100%;
     }
 
     body.light-mode pre {
-      background: var(--panel-light);
-      border-image: var(--border-gradient-light) 1;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      color: var(--white-light);
+      background: var(--surface-variant-light);
+      color: var(--on-surface-light);
     }
 
     .copy-btn {
-      background: var(--switch-silver);
-      color: var(--white);
-      border: none;
-      border-radius: 6px;
-      padding: 0.3rem 0.6rem;
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 20px;
+      padding: 8px 16px;
       cursor: pointer;
-      font-size: 0.9rem;
-      transition: background var(--transition-fast), color var(--transition-fast);
-      align-self: flex-start;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       white-space: nowrap;
+      width: 100px;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
 
     body.light-mode .copy-btn {
-      background: var(--switch-silver-light);
-      color: var(--white-light);
+      background: transparent;
+      color: var(--primary-light);
+      border: 2px solid var(--primary-light);
     }
 
     .copy-btn:hover {
-      background: var(--switch-teal);
-      color: var(--white);
+      background: var(--primary);
+      color: var(--bg);
+      transform: translateY(-1px);
     }
 
     body.light-mode .copy-btn:hover {
-      background: var(--switch-teal-light);
-      color: var(--white-light);
+      background: var(--primary-light);
+      color: white;
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
     }
 
     a {
-      color: var(--switch-silver);
+      color: var(--primary);
       text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition);
     }
 
     body.light-mode a {
-      color: var(--switch-silver-light);
+      color: var(--primary-light);
     }
 
     a:hover {
+      color: var(--secondary);
       text-decoration: underline;
-      color: var(--switch-teal);
     }
 
     body.light-mode a:hover {
-      color: var(--switch-teal-light);
+      color: var(--secondary-light);
     }
 
     a[target="_blank"]::after {
       content: ' ↗';
       font-size: 0.85em;
-      opacity: 0.5;
+      opacity: 0.7;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      margin-top: 16px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--elevation-2);
+      transition: all var(--transition);
+    }
+
+    img:hover {
+      box-shadow: var(--elevation-3);
+      transform: scale(1.02);
+    }
+
+    code {
+      background: var(--surface-variant);
+      color: var(--primary);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.9em;
+    }
+
+    body.light-mode code {
+      background: var(--surface-variant-light);
+      color: var(--primary-light);
     }
 
     @media (max-width: 700px) {
       .centered-container {
-        padding: 1rem;
+        padding: 16px;
       }
       .header-container {
-        margin-bottom: 0.75rem;
+        margin-bottom: 12px;
       }
       header {
-        font-size: 1.4rem;
-        padding: 0.75rem;
+        font-size: 1.5rem;
+        padding: 16px 24px;
       }
       .code-container {
-        flex-direction: column;
-        gap: 0.25rem;
+        flex-direction: row;
+        gap: 8px;
       }
-      .copy-btn {
-        align-self: flex-end;
+      h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      h3 {
+        font-size: 1.25rem;
       }
     }
 
@@ -233,12 +326,35 @@
       animation: none;
       mix-blend-mode: normal;
     }
+
+    .material-ripple {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .material-ripple::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .material-ripple:active::before {
+      width: 300px;
+      height: 300px;
+    }
   </style>
 </head>
 <body>
   <div class="centered-container">
     <div class="header-container">
-      <header id="theme-toggle">Fedora 42 Workspace Setup</header>
+      <header id="theme-toggle" class="material-ripple">Fedora 42 Workspace Setup</header>
     </div>
 
     <h1>General Steps</h1>
@@ -246,84 +362,109 @@
     <h3>Additional Packages Installation</h3>
     <p>Install additional packages:</p>
     <div class="code-container">
-      <pre>sudo dnf in -y flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch vim gnome-tweaks
+      <div class="code-wrapper">
+        <pre>sudo dnf in -y flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch vim gnome-tweaks
 sudo systemctl enable --now bluetooth ufw
 sudo ufw default deny</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
     <div class="code-container">
-      <pre>sudo dnf group install multimedia</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <div class="code-wrapper">
+        <pre>sudo dnf group install multimedia</pre>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Make Download Faster</h3>
     <div class="code-container">
-      <pre>sudo vim /etc/dnf/dnf.conf</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <div class="code-wrapper">
+        <pre>sudo vim /etc/dnf/dnf.conf</pre>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
     <p>Add the following lines:</p>
     <div class="code-container">
-      <pre>max_parallel_downloads=20
+      <div class="code-wrapper">
+        <pre>max_parallel_downloads=20
 fastestmirror=True</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Update System</h3>
     <div class="code-container">
-      <pre>sudo dnf up -y && sudo reboot now</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <div class="code-wrapper">
+        <pre>sudo dnf up -y && sudo reboot now</pre>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Install Nvidia Drivers</h3>
     <div class="code-container">
-      <pre>sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland akmod-nvidia xorg-x11-drv-nvidia-cuda --skip-broken --allowerasing
+      <div class="code-wrapper">
+        <pre>sudo dnf in -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland akmod-nvidia xorg-x11-drv-nvidia-cuda --skip-broken --allowerasing
 sudo reboot now</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
     <div class="code-container">
-      <pre>sudo su</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <div class="code-wrapper">
+        <pre>sudo su</pre>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
     <div class="code-container">
-      <pre>echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
+      <div class="code-wrapper">
+        <pre>echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf
 echo "blacklist nova_core" >> /etc/modprobe.d/blacklist.conf</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
     <div class="code-container">
-      <pre>echo "options nvidia NVreg_PreserveVideoMemoryAllocations=1" >> /etc/modprobe.d/nvidia.conf
+      <div class="code-wrapper">
+        <pre>echo "options nvidia NVreg_PreserveVideoMemoryAllocations=1" >> /etc/modprobe.d/nvidia.conf
 echo "options nvidia-drm modeset=1 fbdev=0" >> /etc/modprobe.d/nvidia.conf</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Installing the CachyOS Kernel</h3>
     <div class="code-container">
-      <pre>sudo dnf copr enable bieszczaders/kernel-cachyos
+      <div class="code-wrapper">
+        <pre>sudo dnf copr enable bieszczaders/kernel-cachyos
 sudo dnf in -y kernel-cachyos kernel-cachyos-devel-matched
 sudo dnf copr enable bieszczaders/kernel-cachyos-addons
 sudo dnf in -y cachyos-settings --allowerasing
 sudo dracut -f --regenerate-all
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Installing Gaming Meta</h3>
     <div class="code-container">
-      <pre>sudo dnf in -y @c-development @development-tools steam lutris wine bottles gamescope mangohud libva-utils vulkan-tools mesa-dri-drivers mesa-vulkan-drivers gamemode libadwaita wine-dxvk dxvk-native goverlay --skip-broken
+      <div class="code-wrapper">
+        <pre>sudo dnf in -y @c-development @development-tools steam lutris wine bottles gamescope mangohud libva-utils vulkan-tools mesa-dri-drivers mesa-vulkan-drivers gamemode libadwaita wine-dxvk dxvk-native goverlay --skip-broken
 sudo dnf copr enable atim/heroic-games-launcher
 sudo dnf in -y heroic-games-launcher-bin</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Debloating Desktop</h3>
     <div class="code-container">
-      <pre>sudo dnf rm -y gnome-contacts gnome-maps mediawriter totem simple-scan gnome-boxes gnome-user-docs rhythmbox evince gnome-photos gnome-documents gnome-initial-setup yelp winhelp32 dosbox winehelp fedora-release-notes firefox gnome-characters gnome-logs fonts-tweak-tool timeshift epiphany gnome-weather cheese pavucontrol qt5-settings
+      <div class="code-wrapper">
+        <pre>sudo dnf rm -y gnome-contacts gnome-maps mediawriter totem simple-scan gnome-boxes gnome-user-docs rhythmbox evince gnome-photos gnome-documents gnome-initial-setup yelp winhelp32 dosbox winehelp fedora-release-notes firefox gnome-characters gnome-logs fonts-tweak-tool timeshift epiphany gnome-weather cheese pavucontrol qt5-settings
 sudo dnf clean all</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Install Microsoft-Edge</h3>
     <div class="code-container">
-      <pre>sudo tee /etc/yum.repos.d/microsoft-edge.repo <<EOF
+      <div class="code-wrapper">
+        <pre>sudo tee /etc/yum.repos.d/microsoft-edge.repo <<EOF
 [microsoft-edge]
 name=Microsoft Edge
 baseurl=https://packages.microsoft.com/yumrepos/edge
@@ -331,11 +472,14 @@ enabled=1
 gpgcheck=1
 gpgkey=https://packages.microsoft.com/keys/microsoft.asc
 EOF</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
     <div class="code-container">
-      <pre>sudo dnf install microsoft-edge-stable</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <div class="code-wrapper">
+        <pre>sudo dnf install microsoft-edge-stable</pre>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h1>Gnome Setup</h1>
@@ -401,62 +545,74 @@ EOF</pre>
     <h3>Extensions Manager</h3>
     <p>Install via flatpak:</p>
     <div class="code-container">
-      <pre>sudo flatpak install -y flathub com.mattjakeman.ExtensionManager</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <div class="code-wrapper">
+        <pre>sudo flatpak install -y flathub com.mattjakeman.ExtensionManager</pre>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>WhiteSur Theme</h3>
     <div class="code-container">
-      <pre>sudo dnf in -y git
+      <div class="code-wrapper">
+        <pre>sudo dnf in -y git
 git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git
 cd WhiteSur-gtk-theme
 ./install.sh -l
 cd ..
 sudo rm -rf WhiteSur-gtk-theme</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Tokyonight Theme</h3>
     <div class="code-container">
-      <pre>git clone --depth 1 https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git
+      <div class="code-wrapper">
+        <pre>git clone --depth 1 https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git
 cd Tokyonight-GTK-Theme/themes
 ./install.sh -l --tweaks black macos
 cd ../..
 sudo rm -rf Tokyonight-GTK-Theme</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Tela Circle Icons</h3>
     <div class="code-container">
-      <pre>git clone --depth 1 https://github.com/vinceliuice/Tela-circle-icon-theme.git
+      <div class="code-wrapper">
+        <pre>git clone --depth 1 https://github.com/vinceliuice/Tela-circle-icon-theme.git
 cd Tela-circle-icon-theme
 ./install.sh -a
 cd ..
 sudo rm -rf Tela-circle-icon-theme</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h2>Gnome Tweaks</h2>
     <ul>
       <li>Do not change the font (set via KDE Plasma to avoid font rendering issues in Ptyxis with "apply system font").</li>
-      <li>Shell theme: `WhiteSur-Dark`</li>
-      <li>Other theme: `Tokyonight` (ensures compact apps via WhiteSur shell styling and Tokyo Night theme via libadwaita).</li>
+      <li>Shell theme: <code>WhiteSur-Dark</code></li>
+      <li>Other theme: <code>Tokyonight</code> (ensures compact apps via WhiteSur shell styling and Tokyo Night theme via libadwaita).</li>
     </ul>
 
     <h3>Zsh</h3>
     <div class="code-container">
-      <pre>sudo dnf in -y zsh
+      <div class="code-wrapper">
+        <pre>sudo dnf in -y zsh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
 echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
 chsh -s $(which zsh)</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Terminal (Ptyxis)</h3>
     <div class="code-container">
-      <pre>sudo dnf in -y dejavu-sans-mono-fonts powerline-fonts
+      <div class="code-wrapper">
+        <pre>sudo dnf in -y dejavu-sans-mono-fonts powerline-fonts
 gsettings set 'org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/'$PTYXIS_PROFILE'/' 'opacity' '0.70'</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
     <ul>
       <li>Set Ptyxis font to DejaVu Sans Mono or Powerline font.</li>
@@ -466,18 +622,22 @@ gsettings set 'org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/'$PTYXIS_PROF
 
     <h2>Installation</h2>
     <div class="code-container">
-      <pre>sudo dnf in -y plasma-desktop konsole kvantum</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      <div class="code-wrapper">
+        <pre>sudo dnf in -y plasma-desktop konsole kvantum</pre>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h2>Theme Installation</h2>
     <div class="code-container">
-      <pre>git clone https://github.com/vinceliuice/Layan-kvantum-theme.git
+      <div class="code-wrapper">
+        <pre>git clone https://github.com/vinceliuice/Layan-kvantum-theme.git
 cd Layan-kvantum-theme
 ./install.sh
 cd ..
 sudo rm -rf Layan-kvantum-theme</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Details</h3>
@@ -532,12 +692,14 @@ sudo rm -rf Layan-kvantum-theme</pre>
 
     <h3>Additional Fonts</h3>
     <div class="code-container">
-      <pre>git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+      <div class="code-wrapper">
+        <pre>git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
 cd nerd-fonts
 ./install.sh
 cd ..
 sudo rm -rf nerd-fonts</pre>
-      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <button class="copy-btn material-ripple" onclick="copyCode(this)">Copy</button>
     </div>
 
     <h3>Mouse Cursor</h3>
@@ -600,7 +762,8 @@ sudo rm -rf nerd-fonts</pre>
     });
 
     function copyCode(button) {
-      const pre = button.previousElementSibling;
+      const codeWrapper = button.previousElementSibling;
+      const pre = codeWrapper.querySelector('pre');
       const text = pre.textContent;
       navigator.clipboard.writeText(text).then(() => {
         button.textContent = 'Copied!';

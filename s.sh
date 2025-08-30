@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# The script is currently broken because I edited it on Windows.
-
 TOTAL_STEPS=16
 CURRENT_STEP=0
 CURRENT_PROCESS_STEPS=1
@@ -25,7 +23,6 @@ simulate_process_progress() {
     CURRENT_PROCESS_STEP=0
     local steps=$1
     CURRENT_PROCESS_STEPS=$steps
-    
     for ((i=1; i<=steps; i++)); do
         CURRENT_PROCESS_STEP=$i
         sleep 0.3
@@ -36,7 +33,6 @@ spinner() {
     local i=0
     while true; do
         printf "\r🔄 %s %s" "$CURRENT_TASK" "${SPINNER_CHARS:$((i % ${#SPINNER_CHARS})):1}"
-        
         sleep 0.15
         ((i++))
     done
@@ -48,14 +44,10 @@ show_progress() {
         wait $SPINNER_PID 2>/dev/null
         printf "\n"
     fi
-    
     CURRENT_STEP=$((CURRENT_STEP + 1))
     CURRENT_TASK="$1"
-    
     clear
-    
     local overall_percent=$((CURRENT_STEP * 100 / TOTAL_STEPS))
-    
     echo "╔════════════════════════════════════════════════════════════════╗"
     echo "║                   Fedora 42 Workspace Setup                    ║"
     echo "╚════════════════════════════════════════════════════════════════╝"
@@ -63,7 +55,6 @@ show_progress() {
     printf "📊 Overall Progress: [%02d%%] %s/%s\n" "$overall_percent" "$CURRENT_STEP" "$TOTAL_STEPS"
     echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
-    
     if [[ $CURRENT_STEP -le $TOTAL_STEPS ]]; then
         spinner &
         SPINNER_PID=$!
@@ -75,22 +66,17 @@ run_with_progress() {
     shift
     local cmd_to_run="$@"
     local temp_log=$(mktemp)
-    
     simulate_process_progress $steps &
     local sim_pid=$!
-    
     eval "$cmd_to_run" > "$temp_log" 2>&1
     local exit_status=$?
-    
     wait $sim_pid
-    
     if [[ $exit_status -ne 0 ]]; then
         echo "❌ Fehler bei: $cmd_to_run" | tee -a "$LOG_FILE"
         echo "----------------------------------------------------" | tee -a "$LOG_FILE"
         cat "$temp_log" | tee -a "$LOG_FILE"
         echo "----------------------------------------------------" | tee -a "$LOG_FILE"
     fi
-    
     rm "$temp_log"
 }
 
@@ -109,11 +95,14 @@ if [[ "$start_transform" != "y" ]]; then
 fi
 
 install_nvidia="y"
-
 > "$LOG_FILE"
 
 show_progress "Optimizing DNF"
-run_with_progress 3 sudo sh -c 'echo -e "max_parallel_downloads=20\nfastestmirror=True" >> /etc/dnf/dnf.conf'
+run_with_progress 3 bash -c '
+sudo sed -i "/^max_parallel_downloads=/d" /etc/dnf/dnf.conf
+sudo sed -i "/^fastestmirror=/d" /etc/dnf/dnf.conf
+echo -e "max_parallel_downloads=20\nfastestmirror=True" | sudo tee -a /etc/dnf/dnf.conf
+'
 
 show_progress "Installing additional packages"
 run_with_progress 8 sudo dnf install -y flatpak git wget gedit thermald ufw fzf python3 python3-pip bluez blueman bluez-libs fastfetch vim gnome-tweaks
@@ -126,10 +115,8 @@ run_with_progress 5 sudo dnf group install -y multimedia
 if [[ "$install_nvidia" == "y" ]]; then
     show_progress "Installing NVIDIA drivers"
     run_with_progress 10 sudo dnf install -y @base-x kernel-devel kernel-headers gcc make dkms acpid libglvnd-devel pkgconf xorg-x11-server-Xwayland libxcb egl-wayland akmod-nvidia xorg-x11-drv-nvidia-cuda --skip-broken --allowerasing
-    
     run_with_progress 2 sudo sh -c 'echo "blacklist nouveau" >> /etc/modprobe.d/blacklist.conf'
     run_with_progress 2 sudo sh -c 'echo "blacklist nova_core" >> /etc/modprobe.d/blacklist.conf'
-    
     run_with_progress 2 sudo sh -c 'echo "options nvidia NVreg_PreserveVideoMemoryAllocations=1" >> /etc/modprobe.d/nvidia.conf'
     run_with_progress 2 sudo sh -c 'echo "options nvidia-drm modeset=1 fbdev=0" >> /etc/modprobe.d/nvidia.conf'
 fi
@@ -149,16 +136,9 @@ show_progress "Debloating desktop"
 run_with_progress 8 sudo dnf remove -y gnome-contacts gnome-maps mediawriter totem simple-scan gnome-boxes gnome-user-docs rhythmbox evince gnome-photos gnome-documents gnome-initial-setup yelp winhelp32 dosbox winehelp fedora-release-notes firefox gnome-characters gnome-logs fonts-tweak-tool timeshift epiphany gnome-weather cheese pavucontrol qt5-settings
 run_with_progress 2 sudo dnf clean all
 
-show_progress "Installing Microsoft Edge"
-run_with_progress 3 sudo tee /etc/yum.repos.d/microsoft-edge.repo <<EOF
-[microsoft-edge]
-name=Microsoft Edge
-baseurl=https://packages.microsoft.com/yumrepos/edge
-enabled=1
-gpgcheck=1
-gpgkey=https://packages.microsoft.com/keys/microsoft.asc
-EOF
-run_with_progress 5 sudo dnf install -y microsoft-edge-stable
+show_progress "Installing LibreWolf"
+run_with_progress 3 sudo dnf copr enable -y dawid/librewolf
+run_with_progress 5 sudo dnf install -y librewolf
 
 show_progress "Installing Extension Manager"
 run_with_progress 6 sudo flatpak install -y flathub com.mattjakeman.ExtensionManager
@@ -240,18 +220,11 @@ printf "📊 Overall Progress: [100%%] %s/%s\n" "$TOTAL_STEPS" "$TOTAL_STEPS"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "🎯 Manual steps required:"
-echo "    • Install GNOME extensions via Extension Manager (e.g., Blur My Shell, Just Perfection, Dash to Dock, Arc Menu, Coverflow, Impatience, Caffeine, User Themes, System Monitor, Extension List)."
-echo "    • Configure themes in GNOME Tweaks:"
-echo "      - Shell theme: WhiteSur-Dark"
-echo "      - Application theme: Tokyonight"
-echo "      - Icons: Tela-circle"
-echo "      - Cursor: Bibata-Modern-Classic"
-echo "      - Font: Inter (Semi Bold)"
-echo ""
+echo "    • Install GNOME extensions via Extension Manager"
+echo "    • Configure themes in GNOME Tweaks"
 echo "    • Set Ptyxis font to DejaVu Sans Mono (or Inter)"
 echo "    • Run 'p10k configure' to setup Powerlevel10k"
 echo ""
-
 echo "🔄 System update and reboot required!"
 read -p "    Update system and reboot now? (y/n): " update_reboot
 if [[ "$update_reboot" == "y" ]]; then

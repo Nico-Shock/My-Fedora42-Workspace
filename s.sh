@@ -68,6 +68,7 @@ run_with_progress() {
     local temp_log=$(mktemp)
     simulate_process_progress $steps &
     local sim_pid=$!
+    sleep 0.1
     eval "$cmd_to_run" > "$temp_log" 2>&1
     local exit_status=$?
     wait $sim_pid
@@ -96,6 +97,9 @@ fi
 
 install_nvidia="y"
 > "$LOG_FILE"
+
+show_progress "Installing required tools"
+run_with_progress 3 sudo dnf install -y wget unzip git
 
 show_progress "Optimizing DNF"
 run_with_progress 3 bash -c '
@@ -145,7 +149,7 @@ run_with_progress 6 sudo flatpak install -y flathub com.mattjakeman.ExtensionMan
 
 show_progress "Installing WhiteSur theme"
 cd /tmp
-run_with_progress 4 git clone --depth 1 https://github.com/vinceliuice/WhiteSur-gtk-theme.git
+run_with_progress 4 git clone --depth 1 https://github.com/vinceliuice/WhiteSur-gtk-theme.git  
 cd WhiteSur-gtk-theme
 run_with_progress 6 ./install.sh -l
 cd /tmp
@@ -153,7 +157,7 @@ run_with_progress 1 sudo rm -rf WhiteSur-gtk-theme
 
 show_progress "Installing Tokyonight theme"
 cd /tmp
-run_with_progress 4 git clone --depth 1 https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git
+run_with_progress 4 git clone --depth 1 https://github.com/Fausto-Korpsvart/Tokyonight-GTK-Theme.git  
 cd Tokyonight-GTK-Theme/themes
 run_with_progress 7 ./install.sh -l --tweaks black macos
 cd /tmp
@@ -161,7 +165,7 @@ run_with_progress 1 sudo rm -rf Tokyonight-GTK-Theme
 
 show_progress "Installing Tela Circle icons"
 cd /tmp
-run_with_progress 4 git clone --depth 1 https://github.com/vinceliuice/Tela-circle-icon-theme.git
+run_with_progress 4 git clone --depth 1 https://github.com/vinceliuice/Tela-circle-icon-theme.git  
 cd Tela-circle-icon-theme
 run_with_progress 8 ./install.sh -a
 cd /tmp
@@ -186,7 +190,7 @@ run_with_progress 1 rm Bibata-Modern-Classic.tar.xz
 show_progress "Setting up Zsh and fonts"
 run_with_progress 4 sudo dnf install -y zsh dejavu-sans-mono-fonts powerline-fonts
 cd $HOME
-run_with_progress 3 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+run_with_progress 3 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git   ~/powerlevel10k
 run_with_progress 1 sh -c 'echo "source ~/powerlevel10k/powerlevel10k.zsh-theme" >> ~/.zshrc'
 run_with_progress 2 chsh -s $(which zsh)
 
@@ -196,7 +200,7 @@ if [[ -n "$PTYXIS_PROFILE" ]]; then
 fi
 
 cd /tmp
-run_with_progress 5 git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+run_with_progress 5 git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git  
 cd nerd-fonts
 run_with_progress 10 ./install.sh
 cd /tmp

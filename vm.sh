@@ -1,4 +1,3 @@
-```bash
 #!/bin/bash
 TOTAL_STEPS=14
 CURRENT_STEP=0
@@ -193,5 +192,3 @@ read -p "    Update system and reboot now? (y/n): " update_reboot
 if [[ "$update_reboot" == "y" ]]; then
     sudo dnf update -y && sudo reboot now
 fi
-
-```
